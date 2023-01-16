@@ -6,7 +6,7 @@
 /*   By: cmansey <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 11:47:09 by cmansey           #+#    #+#             */
-/*   Updated: 2023/01/16 16:11:05 by cmansey          ###   ########.fr       */
+/*   Updated: 2023/01/16 16:32:19 by cmansey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,33 @@ int	ft_recursive_power(int nb, int power)
 	return (nb * ft_recursive_power(nb, power - 1));
 }
 
-char *new_string
+//ON VA PRENDRE NOTRE RESULTAT DECIMAL ET L'AJOUTER DANS UNE STRING
+//ON FAIT CA LETTRE PAR LETTRE A CHAUE RECEPTION DE 8 SIGNAUX
+char	*new_string(char *string, int result)
 {
+	int		i;
+	int		j;
+	char	*new_str;
+
+	i = 0;
+	j = 0;
+	new_str = malloc((ft_strlen(string) + 2));
+	if (!new_str)
+		return (NULL);
+	while (string[i])
+		new_str[j++] = string[i++];
+	i = 0;
+	new_str[j++] = result;
+	new_str[j] = 0;
+	free (string);
+	return (new_str);
 }
 
 //PRINTF PEUT FAIRE CRASHER SIGNAL HANDLER PAS RECOMMANDE
 //MIEUX DE FAIRE UN WRITE PLUS SAFE
-void handler(int signum)
+void	handler(int signum)
 {
-	static int result;
+	static int	result;
 	static char	*final;
 	static int	index;
 
@@ -63,7 +81,7 @@ void handler(int signum)
 	index--;
 	if (index == 0)
 	{
-		final = new_string(final ,result);
+		final = new_string(final, result);
 		if (result == '\0')
 		{
 			ft_putendl_fd(final, 1);
