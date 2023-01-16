@@ -6,7 +6,7 @@
 /*   By: cmansey <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 11:47:09 by cmansey           #+#    #+#             */
-/*   Updated: 2023/01/16 16:32:19 by cmansey          ###   ########.fr       */
+/*   Updated: 2023/01/16 16:35:47 by cmansey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_recursive_power(int nb, int power)
 }
 
 //ON VA PRENDRE NOTRE RESULTAT DECIMAL ET L'AJOUTER DANS UNE STRING
-//ON FAIT CA LETTRE PAR LETTRE A CHAUE RECEPTION DE 8 SIGNAUX
+//ON FAIT CA LETTRE PAR LETTRE A CHAQUE RECEPTION DE 8 SIGNAUX
 char	*new_string(char *string, int result)
 {
 	int		i;
