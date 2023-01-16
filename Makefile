@@ -6,43 +6,46 @@
 #    By: cmansey <marvin@42lausanne.ch>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/14 12:56:43 by cmansey           #+#    #+#              #
-#    Updated: 2023/01/14 12:56:43 by cmansey          ###   ########.fr        #
+#    Updated: 2023/01/16 11:20:50 by cmansey          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minitalk
+SRCS	= client.c server.c
 
-SRCS = client.c server.c
+OBJS	:= $(SRCS:%.c=%.o)
 
-all: $(NAME)
+NAME	= minitalk
 
-OBJS = $(SRCS:.c=.o)
+CC		= gcc
+RM		= rm -f
 
-LIBFT = libft
+CFLAGS 	= -Wall -Wextra -Werror
 
-CC = gcc
-RM = rm -f
-AR = ar -rcs
+all:		${NAME}
 
-CFLAGS = -Wall -Wextra -Werror
+%.o:	%.c
+		${CC} ${CFLAGS} -Ilibft -c $? -o $@
 
-.c.o:
-	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+${NAME}:	 server client
 
-$(NAME): $(OBJS)
-	@make -C $(LIBFT)
-	@cp libft/libft.a .
-	@mv libft.a $(NAME)
-	$(AR) $(NAME) $(OBJS)
+server:		server.o
+		@make -C libft
+		${CC} ${CFLAGS} $? -Llibft -lft -o server
+
+client:		client.o
+		@make -C libft
+		${CC} ${CFLAGS} $? -Llibft -lft  -o client
+
+libft:
+		make -C libft
 
 clean:
-	$(RM) $(OBJS)
-	@make clean -C $(LIBFT)
+			make clean -C libft
+			${RM} ${OBJS}
 
-fclean: clean
-	$(RM) $(NAME)
-	@$(RM) -f $(LIBFT)/libft.a
+fclean:		clean
+			${RM} server client
 
-re: fclean all
+re:			fclean all
 
-.PHONY: all clean fclean re
+.PHONY:		libft
