@@ -6,7 +6,7 @@
 /*   By: cmansey <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 11:47:09 by cmansey           #+#    #+#             */
-/*   Updated: 2023/01/16 16:35:47 by cmansey          ###   ########.fr       */
+/*   Updated: 2023/01/19 17:04:22 by cmansey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	show_pid(void)
 		ft_putendl_fd("[Error]", 2);
 		return ;
 	}
+	ft_putendl_fd("Server's PID:", 1);
 	ft_putendl_fd(pid_str, 1);
 	free(pid_str);
 }
@@ -68,18 +69,18 @@ char	*new_string(char *string, int result)
 //MIEUX DE FAIRE UN WRITE PLUS SAFE
 void	handler(int signum)
 {
-	static int	result;
+	static int	result = 0;
+	static int	index = 0;
 	static char	*final;
-	static int	index;
 
-	result = 0;
-	index = 7;
+	if (!final)
+		final = ft_strdup("");
 	if (signum == SIGUSR1)
 		result = result + 0;
 	else if (signum == SIGUSR2)
 		result = result + (ft_recursive_power(2, 7 - index));
-	index--;
-	if (index == 0)
+	index++;
+	if (index == 8)
 	{
 		final = new_string(final, result);
 		if (result == '\0')
@@ -99,13 +100,13 @@ void	handler(int signum)
 //SA_FLAGS A 0 DEFINIT LE SIGNAL PAR DEFAUT A 0
 int	main(void)
 {
-	struct sigaction	s_sigaction;
+	struct sigaction	sig_rec;
 
 	show_pid();
-	s_sigaction.sa_handler = handler;
-	s_sigaction.sa_flags = SA_NODEFER;
-	sigaction(SIGUSR1, &s_sigaction, 0);
-	sigaction(SIGUSR2, &s_sigaction, 0);
+	sig_rec.sa_handler = handler;
+	sig_rec.sa_flags = SA_NODEFER;
+	sigaction(SIGUSR1, &sig_rec, 0);
+	sigaction(SIGUSR2, &sig_rec, 0);
 	while (1)
 		pause();
 	return (0);

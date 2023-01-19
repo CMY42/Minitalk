@@ -6,7 +6,7 @@
 /*   By: cmansey <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:05:44 by cmansey           #+#    #+#             */
-/*   Updated: 2023/01/16 11:46:05 by cmansey          ###   ########.fr       */
+/*   Updated: 2023/01/19 15:42:00 by cmansey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,32 @@
 
 //ENVOYER LE SIGNAL EN L'ENCRYPTANT EN BITS 0 OU 1
 //CHAQUE CARACTERE CORRESPOND A 8 BITS
+//PAS OUBLIER LE /0 A LA FIN
 void	send_signals(int serv_pid, char *string)
 {
-	int	len;
-	int	i;
-	int	j;
+	size_t	i;
+	int		j;
 
-	len = strlen(string);
 	i = -1;
 	j = 7;
-	while (++i < len)
+	while (++i < ft_strlen(string))
 	{
 		while (j >= 0)
 		{
 			if ((string[i] >> j & 1) == 0)
 				kill(serv_pid, SIGUSR1);
 			else
-				kill (serv_pid, SIGUSR2);
+				kill(serv_pid, SIGUSR2);
 			usleep (42);
 			j--;
 		}
 		j = 7;
+	}
+	i = 0;
+	while (i++ < 8)
+	{
+		kill(serv_pid, SIGUSR1);
+		usleep(42);
 	}
 }
 
