@@ -6,7 +6,7 @@
 /*   By: cmansey <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 11:47:09 by cmansey           #+#    #+#             */
-/*   Updated: 2023/01/19 17:04:22 by cmansey          ###   ########.fr       */
+/*   Updated: 2023/01/23 18:54:03 by cmansey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	handler(int signum)
 		{
 			ft_putendl_fd(final, 1);
 			final = NULL;
+			free (final);
 		}
 		index = 0;
 		result = 0;
